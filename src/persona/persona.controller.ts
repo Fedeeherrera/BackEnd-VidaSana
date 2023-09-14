@@ -17,7 +17,8 @@ import { Persona } from './persona.interface';
 export class PersonaController {
   constructor(private readonly personaService: PersonaService) {}
   @Get('/personas')
-  getPersonas(): Promise<Persona[]> {
+  @HttpCode(202)
+  async getPersonas(): Promise<Persona[]> {
     return this.personaService.getPersonas();
   }
   @Get('/personas/:id')
@@ -36,11 +37,11 @@ export class PersonaController {
   createPersona(@Body() body): Promise<any> {
     return this.personaService.createPersona(body);
   }
-  @Delete(':id')
+  @Delete('/personas/:id')
   deletePersonaByID(@Param('id') id: number) {
     return this.personaService.deletePersonaByID(id);
   }
-  @Put(':id')
+  @Put('/personas/:id')
   @HttpCode(204)
   updatePersonById(@Param('id') id: number, @Body() body): Promise<void> {
     return this.personaService.updatePersonById(id, body);

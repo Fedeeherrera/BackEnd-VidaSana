@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Persona } from './persona.interface';
 
-const BASE_URL = `http://localhost:3030/personas/`;
+const BASE_URL = 'http://localhost:3030/personas/';
 
 @Injectable()
 export class PersonaService {
