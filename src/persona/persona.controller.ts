@@ -32,16 +32,17 @@ export class PersonaController {
     }
   }
   @Post('/personas/')
+  @HttpCode(201)
   createPersona(@Body() body): Promise<any> {
     return this.personaService.createPersona(body);
   }
   @Delete(':id')
-  deleteTrackById(@Param('id') id: number) {
-    return this.personaService.deleteTrackById(id);
+  deletePersonaByID(@Param('id') id: number) {
+    return this.personaService.deletePersonaByID(id);
   }
   @Put(':id')
   @HttpCode(204)
-  updateTrackById(@Param('id') id: number, @Body() body): Promise<void> {
-    return this.personaService.updateTrackById(id, body);
+  updatePersonById(@Param('id') id: number, @Body() body): Promise<void> {
+    return this.personaService.updatePersonById(id, body);
   }
 }

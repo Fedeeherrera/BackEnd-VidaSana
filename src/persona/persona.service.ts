@@ -34,14 +34,14 @@ export class PersonaService {
     const id = personas.pop().id + 1;
     return id;
   }
-  async deleteTrackById(id: number): Promise<any> {
+  async deletePersonaByID(id: number): Promise<any> {
     const res = await fetch(BASE_URL + id, {
       method: 'DELETE',
     });
     const parsed = await res.json;
     return parsed;
   }
-  async updateTrackById(id: number, body: Persona): Promise<void> {
+  async updatePersonById(id: number, body: Persona): Promise<void> {
     const isPerson = await this.getPersonaById(id);
     if (!Object.keys(isPerson).length) return;
     const updatePersona = { ...body, id };
