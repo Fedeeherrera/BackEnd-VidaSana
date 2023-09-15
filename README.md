@@ -9,8 +9,8 @@
 ## Segundo Sprint
 
 - [ X ] Crear los Endpoints necesarios de BAJA Y MODIFICACIONES para nuestra API utilizando metodos PUT y DELETE
-- [  ] A todos los endpoints previamente creados agregarle los codigos de respuesta utilizando el decorador @Res
-- [  ] Agregar excepciones a todos los endpoints previamente creados
+- [ X ] A todos los endpoints previamente creados agregarle los codigos de respuesta utilizando el decorador @Res
+- [ X ] Agregar excepciones a todos los endpoints previamente creados
 - [  ] Agregar modulos y validaciones
 - [  ] Crear y agregar DTOS al proyecto y validaciones
 

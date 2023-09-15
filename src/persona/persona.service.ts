@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Persona } from './persona.interface';
 
 const BASE_URL = 'http://localhost:3030/personas/';
@@ -10,10 +10,12 @@ export class PersonaService {
     const parsed = await response.json();
     return parsed;
   }
+
   async getPersonaById(id: number): Promise<Persona[]> {
     const response = await fetch(BASE_URL + id);
     const parsed = await response.json();
-    return parsed;
+    if (Object.keys(parsed).length) return parsed;
+    throw new NotFoundException(`Persona con ID: ${id} no  encontrado`);
   }
   async createPersona(persona: Persona) {
     const id = await this.setId();
@@ -26,6 +28,10 @@ export class PersonaService {
       body: JSON.stringify(newPersona),
     });
     const parsed = await response.json();
+
+    if (response.status === 201) {
+      return { message: 'Persona creada correctamente' };
+    }
     return parsed;
   }
 
@@ -35,10 +41,19 @@ export class PersonaService {
     return id;
   }
   async deletePersonaByID(id: number): Promise<any> {
-    const res = await fetch(BASE_URL + id, {
+    const response = await fetch(BASE_URL + id, {
       method: 'DELETE',
     });
-    const parsed = await res.json;
+    const parsed = await response.json();
+
+    if (response.status === 404) {
+      throw new NotFoundException(`Persona con ID ${id} no encontrado`);
+    }
+
+    if (response.status === 204) {
+      return { message: 'Se ha eliminado correctamente' };
+    }
+
     return parsed;
   }
   async updatePersonById(id: number, body: Persona): Promise<void> {
@@ -46,14 +61,14 @@ export class PersonaService {
     if (!Object.keys(isPerson).length) return;
     const updatePersona = { ...body, id };
     console.log('Actualizado, ', updatePersona);
-    const res = await fetch(BASE_URL + id, {
+    const response = await fetch(BASE_URL + id, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(updatePersona),
     });
-    const parsed = await res.json();
+    const parsed = await response.json();
     return parsed;
   }
 }

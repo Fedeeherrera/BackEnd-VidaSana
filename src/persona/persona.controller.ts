@@ -9,6 +9,8 @@ import {
   HttpCode,
   Res,
   HttpStatus,
+  Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { PersonaService } from './persona.service';
 import { Persona } from './persona.interface';
@@ -21,16 +23,16 @@ export class PersonaController {
   async getPersonas(): Promise<Persona[]> {
     return this.personaService.getPersonas();
   }
+
   @Get('/personas/:id')
-  async getPersonaById(@Res() response, @Param('id') id: number): Promise<any> {
-    const responseFromService = await this.personaService.getPersonaById(id);
-    if (Object.keys(responseFromService).length) {
-      return response.status(HttpStatus.OK).json(responseFromService);
-    } else {
-      return response
-        .status(HttpStatus.NOT_FOUND)
-        .json({ error: 'Persona No Existe' });
-    }
+  async getPersonaById(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+  ): Promise<any> {
+    return this.personaService.getPersonaById(id);
   }
   @Post('/personas/')
   @HttpCode(201)
@@ -38,12 +40,26 @@ export class PersonaController {
     return this.personaService.createPersona(body);
   }
   @Delete('/personas/:id')
-  deletePersonaByID(@Param('id') id: number) {
+  @HttpCode(204)
+  deletePersonaByID(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+  ) {
     return this.personaService.deletePersonaByID(id);
   }
   @Put('/personas/:id')
   @HttpCode(204)
-  updatePersonById(@Param('id') id: number, @Body() body): Promise<void> {
+  updatePersonById(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+    @Body() body,
+  ): Promise<void> {
     return this.personaService.updatePersonById(id, body);
   }
 }

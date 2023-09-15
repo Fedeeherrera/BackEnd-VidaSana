@@ -8,10 +8,10 @@
       "id": 1
     },
     {
-      "nombreApellido": "Federico Herrera Caputo",
-      "email": "juan@example.com",
-      "donacion": 5500,
-      "mensaje": "¡Gracias por la oportunidad de ayudar!",
+      "nombreApellido": " Castro Lopexx",
+      "email": "marianito@example.com",
+      "donacion": 200,
+      "mensaje": "¡Sigamos haciendo del mundo un lugar mejor!",
       "id": 2
     },
     {
@@ -50,60 +50,17 @@
       "id": 7
     },
     {
-      "nombreApellido": "Mariano Castro",
-      "email": "mariano@example.com",
-      "donacion": 250,
+      "nombreApellido": " Castro Lopexx",
+      "email": "marianito@example.com",
+      "donacion": 500,
       "mensaje": "Cada aporte cuenta, ¡juntos somos más fuertes!",
       "id": 8
     },
     {
-      "nombreApellido": "Romina Rodriguez",
-      "email": "rominax@example.com",
-      "donacion": 50,
-      "mensaje": "Salvemos el mundo juntos",
-      "id": 9
-    },
-    {
-      "nombreApellido": "Lorenzo Gomez",
-      "email": "lorengomez@example.com",
+      "nombreApellido": " Castro Lopexx",
+      "email": "marianito@example.com",
       "donacion": 500,
-      "mensaje": "Podemos ganarle al calentamiento global, estamos a tiempo",
-      "id": 10
-    },
-    {
-      "nombreApellido": "Federico Herrera",
-      "email": "fedeeherrera7@gmail.com",
-      "donacion": 150,
-      "mensaje": "Gracias por salvar el mundo",
-      "id": 11
-    },
-    {
-      "nombreApellido": "Federico Roman Riquelmeeeee",
-      "email": "juan@example.com",
-      "donacion": 5500,
-      "mensaje": "¡Gracias por la oportunidad de ayudar!",
-      "id": 12
-    },
-    {
-      "nombreApellido": "Jeremias Herrera",
-      "email": "juan@example.com",
-      "donacion": 5500,
-      "mensaje": "¡Gracias por la oportunidad de ayudar!",
-      "id": 13
-    },
-    {
-      "nombreApellido": "Jeremias Caputo",
-      "email": "juan@example.com",
-      "donacion": 5500,
-      "mensaje": "¡Gracias por la oportunidad de ayudar!",
-      "id": 14
-    },
-    {
-      "nombreApellido": " Herrera Caputo",
-      "email": "juan@example.com",
-      "donacion": 400,
-      "mensaje": "¡Gracias por la oportunidad !",
-      "id": 15
+      "id": 9
     }
   ]
 }
