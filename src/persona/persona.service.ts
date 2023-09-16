@@ -1,14 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Persona } from './persona.interface';
+import { Persona } from './persona.dto';
 
 const BASE_URL = 'http://localhost:3030/personas/';
 
 @Injectable()
 export class PersonaService {
   async getPersonas(): Promise<Persona[]> {
-    const response = await fetch(BASE_URL);
-    const parsed = await response.json();
-    return parsed;
+    try {
+      const response = await fetch(BASE_URL);
+      const parsed = await response.json();
+      return parsed;
+    } catch (error) {
+      throw new NotFoundException(`No se puede hacer la consulta`);
+    }
   }
 
   async getPersonaById(id: number): Promise<Persona[]> {
@@ -44,15 +48,13 @@ export class PersonaService {
     const response = await fetch(BASE_URL + id, {
       method: 'DELETE',
     });
-    const parsed = await response.json();
-
     if (response.status === 404) {
       throw new NotFoundException(`Persona con ID ${id} no encontrado`);
     }
-
-    if (response.status === 204) {
+    if (response.status === 200) {
       return { message: 'Se ha eliminado correctamente' };
     }
+    const parsed = await response.json();
 
     return parsed;
   }

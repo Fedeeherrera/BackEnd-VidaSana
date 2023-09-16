@@ -13,7 +13,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { PersonaService } from './persona.service';
-import { Persona } from './persona.interface';
+import { Persona } from './persona.dto';
 
 @Controller()
 export class PersonaController {
@@ -40,7 +40,7 @@ export class PersonaController {
     return this.personaService.createPersona(body);
   }
   @Delete('/personas/:id')
-  @HttpCode(204)
+  @HttpCode(200)
   deletePersonaByID(
     @Param(
       'id',
