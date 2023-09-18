@@ -7,20 +7,18 @@ import {
   Delete,
   Put,
   HttpCode,
-  Res,
   HttpStatus,
-  Query,
   ParseIntPipe,
 } from '@nestjs/common';
 import { PersonaService } from './persona.service';
-import { Persona } from './persona.dto';
+import { PersonaDto } from './persona.dto';
 
 @Controller()
 export class PersonaController {
   constructor(private readonly personaService: PersonaService) {}
   @Get('/personas')
   @HttpCode(202)
-  async getPersonas(): Promise<Persona[]> {
+  async getPersonas(): Promise<PersonaDto[]> {
     return this.personaService.getPersonas();
   }
 
@@ -36,8 +34,8 @@ export class PersonaController {
   }
   @Post('/personas/')
   @HttpCode(201)
-  createPersona(@Body() body): Promise<any> {
-    return this.personaService.createPersona(body);
+  createPersona(@Body() PersonaDto: PersonaDto): Promise<any> {
+    return this.personaService.createPersona(PersonaDto);
   }
   @Delete('/personas/:id')
   @HttpCode(200)

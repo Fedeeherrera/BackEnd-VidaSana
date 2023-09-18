@@ -1,11 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Persona } from './persona.dto';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  ConflictException,
+} from '@nestjs/common';
+import { PersonaDto } from './persona.dto';
 
 const BASE_URL = 'http://localhost:3030/personas/';
 
 @Injectable()
 export class PersonaService {
-  async getPersonas(): Promise<Persona[]> {
+  async getPersonas(): Promise<PersonaDto[]> {
     try {
       const response = await fetch(BASE_URL);
       const parsed = await response.json();
@@ -15,28 +20,56 @@ export class PersonaService {
     }
   }
 
-  async getPersonaById(id: number): Promise<Persona[]> {
-    const response = await fetch(BASE_URL + id);
-    const parsed = await response.json();
-    if (Object.keys(parsed).length) return parsed;
-    throw new NotFoundException(`Persona con ID: ${id} no  encontrado`);
-  }
-  async createPersona(persona: Persona) {
-    const id = await this.setId();
-    const newPersona = { ...persona, id };
-    const response = await fetch(BASE_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newPersona),
-    });
-    const parsed = await response.json();
+  async getPersonaById(id: number): Promise<PersonaDto[]> {
+    try {
+      const response = await fetch(BASE_URL + id);
 
-    if (response.status === 201) {
-      return { message: 'Persona creada correctamente' };
+      if (response.status === 404) {
+        throw new NotFoundException(`Persona con ID ${id} no encontrado`);
+      }
+
+      const parsed = await response.json();
+      if (Object.keys(parsed).length) return parsed;
+    } catch (error) {
+      throw new NotFoundException(`Persona con ID: ${id} no  encontrado`);
     }
-    return parsed;
+  }
+  async createPersona(persona: PersonaDto) {
+    try {
+      // Validar si los campos necesarios están presentes y son válidos
+      if (
+        !persona.nombreApellido ||
+        !persona.email ||
+        !persona.donacion ||
+        !persona.mensaje
+      ) {
+        throw new BadRequestException(
+          'Faltan campos obligatorios en la solicitud',
+        );
+      }
+
+      const id = await this.setId();
+      const newPersona = { ...persona, id };
+      const response = await fetch(BASE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newPersona),
+      });
+
+      if (response.status === 201) {
+        return { message: 'Persona creada correctamente' };
+      } else if (response.status === 404) {
+        throw new BadRequestException('Solicitud incorrecta al crear persona');
+      } else if (response.status === 409) {
+        throw new ConflictException('Ya existe una persona con este ID');
+      } else {
+        throw new Error('Error desconocido al crear persona');
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 
   private async setId(): Promise<number> {
@@ -58,11 +91,10 @@ export class PersonaService {
 
     return parsed;
   }
-  async updatePersonById(id: number, body: Persona): Promise<void> {
+  async updatePersonById(id: number, body: PersonaDto): Promise<void> {
     const isPerson = await this.getPersonaById(id);
     if (!Object.keys(isPerson).length) return;
     const updatePersona = { ...body, id };
-    console.log('Actualizado, ', updatePersona);
     const response = await fetch(BASE_URL + id, {
       method: 'PUT',
       headers: {

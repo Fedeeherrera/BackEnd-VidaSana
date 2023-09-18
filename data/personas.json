@@ -1,10 +1,10 @@
 {
   "personas": [
     {
-      "nombreApellido": "Juan Roman Riquelmeeeee",
-      "email": "juan@example.com",
-      "donacion": 5500,
-      "mensaje": "¡Gracias por la oportunidad de ayudar!",
+      "nombreApellido": "Federico Herrera",
+      "email": "Federico@example.com",
+      "donacion": 1150,
+      "mensaje": "Gracias por ayudar siempre",
       "id": 1
     },
     {
@@ -60,7 +60,15 @@
       "nombreApellido": " Castro Lopexx",
       "email": "marianito@example.com",
       "donacion": 500,
+      "mensaje": "Un pequeño gesto puede tener un gran impacto.",
       "id": 9
+    },
+    {
+      "nombreApellido": "Federico Herrera Caputo",
+      "email": "Federico@example.com",
+      "donacion": 1150,
+      "mensaje": "Gracias por ayudar siempre",
+      "id": 10
     }
   ]
 }
