@@ -49,9 +49,7 @@ export class PersonaService {
         !persona.donacion ||
         !persona.mensaje
       ) {
-        throw new BadRequestException(
-          'Faltan campos obligatorios en la solicitud',
-        );
+        throw new BadRequestException('Todos los campos son obligatorios!');
       }
 
       const id = await this.setId();

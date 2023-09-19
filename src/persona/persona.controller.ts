@@ -56,8 +56,8 @@ export class PersonaController {
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     id: number,
-    @Body() body,
+    @Body() PersonaDto: PersonaDto,
   ): Promise<void> {
-    return this.personaService.updatePersonById(id, body);
+    return this.personaService.updatePersonById(id, PersonaDto);
   }
 }
