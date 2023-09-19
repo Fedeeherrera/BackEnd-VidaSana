@@ -20,6 +20,12 @@ export class PersonaService {
     }
   }
 
+  private async setId(): Promise<number> {
+    const personas = await this.getPersonas();
+    const id = personas.pop().id + 1;
+    return Number(id);
+  }
+
   async getPersonaById(id: number): Promise<PersonaDto[]> {
     try {
       const response = await fetch(BASE_URL + id);
@@ -71,12 +77,6 @@ export class PersonaService {
       throw error;
     }
   }
-
-  private async setId(): Promise<number> {
-    const personas = await this.getPersonas();
-    const id = personas.pop().id + 1;
-    return id;
-  }
   async deletePersonaByID(id: number): Promise<any> {
     const response = await fetch(BASE_URL + id, {
       method: 'DELETE',
@@ -91,18 +91,29 @@ export class PersonaService {
 
     return parsed;
   }
-  async updatePersonById(id: number, body: PersonaDto): Promise<void> {
-    const isPerson = await this.getPersonaById(id);
-    if (!Object.keys(isPerson).length) return;
-    const updatePersona = { ...body, id };
-    const response = await fetch(BASE_URL + id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatePersona),
-    });
-    const parsed = await response.json();
-    return parsed;
+  async updatePersonById(id: number, body: PersonaDto): Promise<any> {
+    try {
+      const isPerson = await this.getPersonaById(id);
+      if (!Object.keys(isPerson).length) return;
+
+      const updatePersona = { ...body, id };
+
+      const response = await fetch(BASE_URL + id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatePersona),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to update person with ID ${id}`);
+      }
+
+      const parsed = await response.json();
+      return parsed;
+    } catch (error) {
+      throw error;
+    }
   }
 }
